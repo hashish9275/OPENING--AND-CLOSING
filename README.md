@@ -31,57 +31,97 @@ Show the original grayscale image, along with the results of the opening and clo
 Developed By : K.R.Hashish Vidya Sagar
 Register Number: 212222230047
 ```
-# Import the necessary packages
 ```
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 ```
-# Create the structuring element
 ```
-image = cv2.imread("Fish.jpg")
-kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
-opening_image = cv2.morphologyEx(image, cv2.MORPH_OPEN, kernel)
-closing_image = cv2.morphologyEx(image, cv2.MORPH_CLOSE, kernel)
+# Create a blank image
+image = np.zeros((500, 500, 3), dtype=np.uint8)
 ```
-# Convert images from BGR to RGB for Matplotlib
 ```
-image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-opening_image_rgb = cv2.cvtColor(opening_image, cv2.COLOR_BGR2RGB)
-closing_image_rgb = cv2.cvtColor(closing_image, cv2.COLOR_BGR2RGB)
+# Add text on the image using cv2.putText
+font = cv2.FONT_HERSHEY_SIMPLEX
+cv2.putText(image, 'Open and Close', (100, 250), font, 1, (255, 255, 255), 2, cv2.LINE_AA)
 ```
-# Plot the original, opening, and closing images using Matplotlib
 ```
-plt.figure(figsize=(10, 5))
+array([[[0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        ...,
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]],
+
+       [[0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        ...,
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]],
+
+       [[0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        ...,
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]],
+
+       ...,
+
+       [[0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        ...,
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]],
+
+       [[0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        ...,
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]],
+
+       [[0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        ...,
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]]], dtype=uint8)
+```     
+ ```       
+# Create a simple square kernel (3x3)
+kernel = np.ones((3, 3), np.uint8)
+```
+```
+# Display the input image
+plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))  # Convert BGR to RGB for displaying
+plt.title("Input Image with Text")
+plt.axis('off')
+```
+# output:
+![image](https://github.com/user-attachments/assets/0f050c78-a17c-4876-86f8-b0845edd8874)
 
 
-plt.imshow(image_rgb)
-plt.title("Original Image")
-plt.axis("off")
-
-
-plt.imshow(opening_image_rgb)
+```
+# Opening is erosion followed by dilation
+opened_image = cv2.morphologyEx(image, cv2.MORPH_OPEN, kernel)
+# Display the result of Opening
+plt.imshow(cv2.cvtColor(opened_image, cv2.COLOR_BGR2RGB))  # Convert BGR to RGB
 plt.title("Opening Operation")
-plt.axis("off")
-
-
-plt.imshow(closing_image_rgb)
-plt.title("Closing Operation")
-plt.axis("off")
-
-plt.tight_layout()
-plt.show()
-
+plt.axis('off')
 ```
+![image](https://github.com/user-attachments/assets/f345d356-d7aa-4323-8a55-cfbaf5acca26)
 
-# OUTPUT:
-# Original Image
-![image](https://github.com/user-attachments/assets/7872fc5e-539e-45e1-9f84-2f8f196d8143)
-
-# Opening Operation:
-![image](https://github.com/user-attachments/assets/9b765bf9-8ce0-4a4e-8d46-f90e8cdfc1b8)
-# Closing Operation:
-![image](https://github.com/user-attachments/assets/e699e6ab-a06f-4933-8777-27133fa821b3)
+# Closing is dilation followed by erosion
+closed_image = cv2.morphologyEx(image, cv2.MORPH_CLOSE, kernel)
 
 
 ## Result
